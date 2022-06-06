@@ -1,0 +1,34 @@
+name: nbson_corpus ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        include:
+          - image: erlang:23
+          - image: erlang:24
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.image }}
+      options: "--entrypoint /bin/bash"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: nomasystems/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Rebar version
+        run: rebar3 --version
+
+      - name: Checks
+        run: rebar3 check
+
+      - name: Compile
+        run: rebar3 compile
