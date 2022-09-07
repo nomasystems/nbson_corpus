@@ -169,10 +169,10 @@ rand_db_pointer() ->
     {pointer, rand_string(), rand_id()}.
 
 rand_javascript() ->
-    {javascript, [{}], <<"function(x) { return x; }">>}.
+    {javascript, #{}, <<"function(x) { return x; }">>}.
 
 rand_javascript_ws() ->
-    {javascript, [{<<"x">>, 1}], <<"function (x){ return x * x; }">>}.
+    {javascript, #{<<"x">> => 1}, <<"function (x){ return x * x; }">>}.
 
 rand_symbol() ->
     symbol.
