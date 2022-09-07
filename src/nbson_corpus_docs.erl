@@ -50,12 +50,13 @@ docs(Count, Conf, Fun) when is_function(Fun), is_integer(Count), Count > 0 ->
 %%%-----------------------------------------------------------------------------
 doc(#{max_fields := MaxF, max_depth := MaxD} = Conf) ->
     FieldCount = rand:uniform(MaxF),
-    fields(FieldCount, Conf#{max_depth := MaxD - 1}, []).
+    fields(FieldCount, Conf#{max_depth := MaxD - 1}, #{}).
 
 fields(0, _Conf, Fields) ->
     Fields;
 fields(FieldCount, Conf, Fields) ->
-    fields(FieldCount - 1, Conf, [field(Conf) | Fields]).
+    {K, V} = field(Conf),
+    fields(FieldCount - 1, Conf, maps:put(K, V, Fields)).
 
 field(#{max_depth := N} = Conf) when N < 0 ->
     Type = rand_type(no_deep),

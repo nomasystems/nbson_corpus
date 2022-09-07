@@ -1,7 +1,7 @@
 # nbson_corpus
 ![nbson_corpus](https://github.com/nomasystems/nbson_corpus/actions/workflows/build.yml/badge.svg)
 
-`nbson_corpus` is an OTP library to produce randomly generated proplists. These proplists are to represent [BSON](https://en.wikipedia.org/wiki/BSON) documents and properties get generated in accordance to [nbson](https://github.com/nomasystems/nbson) representation of BSON documents.
+`nbson_corpus` is an OTP library to produce randomly generated maps. These maps are to represent [BSON](https://en.wikipedia.org/wiki/BSON) documents and properties get generated in accordance to [nbson](https://github.com/nomasystems/nbson) representation of BSON documents.
 
 With `nbson_corpus` you can generate the Erlang representation of a series of BSONs and then encode them into a BSON binary using `nbson`.
 
@@ -19,7 +19,7 @@ With `nbson_corpus` you can generate the Erlang representation of a series of BS
 
 | Function | Description |
 | -------- | ----------- |
-| `nbson_corpus:generate/0,1,2` | Generate a list of proplists. `generate/2` expects the number of proplists to be generated and a [configuration](#configuration) map. `generate/1` works as `/2` but using a default configuration. `generate/0` works as `/1` but using a default number of proplists to be generated.|
+| `nbson_corpus:generate/0,1,2` | Generate a list of maps. `generate/2` expects the number of maps to be generated and a [configuration](#configuration) map. `generate/1` works as `/2` but using a default configuration. `generate/0` works as `/1` but using a default number of maps to be generated.|
 | `nbson_corpus:generate/3` | Same as `generate/2` but allows to specify a Fun as third parameter. This Fun is applied to each new proplist on generation, and must return `ok`. |
 
 ## Configuration
@@ -28,17 +28,17 @@ With `nbson_corpus` you can generate the Erlang representation of a series of BS
 The configuration map should have the following keys and values.
  - `max_fields`: maximum number of fields on each generated proplist. A positive integer.
  - `max_depth`: maximum proplist nesting. Even if a proplist is generated as field value or as list field value, this counts as a new level of nesting. A non-negative integer.
- - `max_in_count`: maximum number of elements inside nested proplists or list values. A non-negative integer.
+ - `max_in_count`: maximum number of elements inside nested maps or list values. A non-negative integer.
 
 ## Examples
 The following examples show how to generate:
- - A list of 1 proplists, with 1 maximum field each with no nesting.
+ - A list of 1 map, with 1 maximum field each with no nesting.
     ```erl
     1> nbson_corpus:generate(1, #{max_fields => 1, max_depth => 0}).
     [[{<<"javascript-Zg==">>,
       {javascript,[{}],<<"function(x) { return x; }">>}}]]
     ```
- - A list of 5 proplists, of maximum 1 field each and with no nesting.
+ - A list of 5 maps, of maximum 1 field each and with no nesting.
     ```erl
     2> nbson_corpus:generate(5, #{max_fields => 1, max_depth => 0}).                   
     [[{<<"double-vQ==">>,63553627.25055845}],
@@ -48,7 +48,7 @@ The following examples show how to generate:
         {timestamp,1057940720,103957660}}],
      [{<<"date-Qg==">>,{951692044,894125578,1915751174}}]]
     ```
-  - A list of 5 proplists of 4 fields maximum each with 1 maximum level of nesting, where arrays and embeded documents should have 3 elements or fields respectively at most.
+  - A list of 5 maps of 4 fields maximum each with 1 maximum level of nesting, where arrays and embeded documents should have 3 elements or fields respectively at most.
     ```erl
     5> nbson_corpus:generate(5, #{max_fields => 4, max_depth => 1, max_in_count => 3}).
     [[{<<"date-Hdc=">>,{52443542,1746558407,1653013798}},
@@ -93,7 +93,7 @@ You can use combined the `nbson_corpus:generate/3` function and the `nbson:encod
 ok
 ```
 
-The Fun passed as parameter encodes the proplist passed as paramter as BSON binary and then appends it to an output `example.bson` file. Passing this function as last parameter to `nbson_corpus:generate` applies it to the list of random proplists generated.
+The Fun passed as parameter encodes the proplist passed as paramter as BSON binary and then appends it to an output `example.bson` file. Passing this function as last parameter to `nbson_corpus:generate` applies it to the list of random maps generated.
 
 ## Support
 

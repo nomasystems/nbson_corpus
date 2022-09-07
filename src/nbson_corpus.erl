@@ -23,23 +23,27 @@
     generate/2,
     generate/3
 ]).
+
+%%% TYPE SPECS
+-type out() :: list(map()).
+
 %%%-----------------------------------------------------------------------------
 %%% API EXPORTS
 %%%-----------------------------------------------------------------------------
--spec generate() -> Result when Result :: ok.
+-spec generate() -> Result when Result :: out().
 generate() ->
     generate(?DEFAULT_COUNT).
 
 -spec generate(DocCount) -> Result when
     DocCount :: non_neg_integer(),
-    Result :: ok.
+    Result :: out().
 generate(DocCount) ->
     generate(DocCount, nbson_corpus_gconf:default()).
 
 -spec generate(DocCount, GenConf) -> Result when
     DocCount :: non_neg_integer(),
     GenConf :: nbson_corpus_gconf:gen_conf(),
-    Result :: ok.
+    Result :: out().
 generate(DocCount, GenConf) ->
     GenConf1 = maps:merge(nbson_corpus_gconf:default(), GenConf),
     nbson_corpus_docs:docs(DocCount, GenConf1).
@@ -48,6 +52,6 @@ generate(DocCount, GenConf) ->
     DocCount :: non_neg_integer(),
     GenConf :: nbson_corpus_gconf:gen_conf(),
     Function :: fun(),
-    Result :: ok.
+    Result :: any().
 generate(DocCount, GenConf, Function) when is_function(Function) ->
     nbson_corpus_docs:docs(DocCount, GenConf, Function).
